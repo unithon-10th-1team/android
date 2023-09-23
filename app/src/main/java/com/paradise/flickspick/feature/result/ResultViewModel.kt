@@ -14,28 +14,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class Movie(
-    val name: String = "매운새우깡",
+    val id: Int = 0,
+    val name: String = "",
     val image: String = "https://newsimg.hankookilbo.com/2019/05/08/201905082306085099_1.jpg",
-    val starNum: Int = 3, // 3 / 5
-    val description: String = "감독 빵빵이 | 각본 옥지 | 제작 빵빵이스튜디오",
-    val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
-    val reason: String = "남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다. 남자들의 영화입니다.",
-    val plot: String = "최고의 파일럿이자 전설적인 인물 매버릭(톰 크루즈)은 자신이 졸업한 훈련학교 교관으로 발탁된다. 그의 명성을 모르던 팀원들은 매버릭의 지시를 무시하지만 실전을 방불케 하는 상공 훈련에서 눈으로 봐도 믿기 힘든 전설적인 조종 실력에 모두가 압도된다. 매버릭의 지휘아래 견고한 팀워크를 쌓아가던 팀원들에",
+    val starNum: Int = 0,
+    val description: String = "",
+    val tag: List<String> = emptyList(),
+    val reason: String = "",
+    val plot: String = "",
 )
 
-fun Movie.toSimpleMovie() = SimpleMovie(
+fun Movie.toSimpleMovie(id: Int = 0) = SimpleMovie(
     name = name,
     image = image,
     starNum = starNum,
     description = description,
+    id = id
 )
 
 data class ResultState(
-    val nickname: String = "옥지얌빵빵",
-    val typename: String = "방구석 액션전문가",
+    val nickname: String = "",
+    val typename: String = "",
     val movies: Movie = Movie(),
-    val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
-    val recMovies: List<Movie> = (1..3).map { Movie() },
+    val tag: List<String> = emptyList(),
+    val recMovies: List<Movie> = emptyList(),
 
     val shareMovies: List<Movie> = emptyList()
 )
@@ -51,6 +53,19 @@ class ResultViewModel @Inject constructor(
         getShare()
     }
 
+    fun updateMovie(id: Int) = viewModelScope.launch {
+        runCatching {
+            service.getMovie(id)
+        }.onSuccess {
+            val response = it.data
+
+            _state.value = _state.value.copy(
+                movies = response.movie.toModel(id = response.movie.id),
+                recMovies = response.recMovies.map { it.toModel(id = it.id) }
+            )
+        }
+    }
+
     fun getResult(nickname: String) = viewModelScope.launch {
         runCatching {
             service.getRec(
@@ -61,15 +76,15 @@ class ResultViewModel @Inject constructor(
             )
         }.onSuccess { result ->
             val response = result.data
-            _state.value = _state.value?.copy(
+            _state.value = _state.value.copy(
                 nickname = nickname,
                 typename = response.recType.type,
                 movies = response.movie.toModel(response.recType.tags),
                 tag = response.recType.tags,
-                recMovies = response.recMovies.map { it.toModel() }
+                recMovies = response.recMovies.map { it.toModel(id = it.id) }
             )
         }.onFailure { exception ->
-
+            exception
         }
     }
 
@@ -80,11 +95,11 @@ class ResultViewModel @Inject constructor(
     private fun getShare() = viewModelScope.launch {
         val response = service.getShare().data
 
-        _state.value = _state.value?.copy(
+        _state.value = _state.value.copy(
             shareMovies = response.similarMovies.map { it.toModel() }
         )
     }
 
-    private val _state = MutableStateFlow<ResultState?>(null)
-    val state: StateFlow<ResultState?> = _state.asStateFlow()
+    private val _state = MutableStateFlow<ResultState>(ResultState())
+    val state: StateFlow<ResultState> = _state.asStateFlow()
 }

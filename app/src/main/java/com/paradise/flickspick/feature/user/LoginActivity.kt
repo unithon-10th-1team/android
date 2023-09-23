@@ -1,14 +1,12 @@
 package com.paradise.flickspick.feature.user
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.paradise.flickspick.core.TokenManager
 import com.paradise.flickspick.databinding.ActivityLoginBinding
 import com.paradise.flickspick.feature.main.select.SelectOttActivity
-import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.retrofit.api.ApiService
 import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.util.startActivityWithAnimation

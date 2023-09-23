@@ -26,7 +26,8 @@ data class Movie(
     val title: String
 )
 
-fun Movie.toModel(tag: List<String> = emptyList()) = com.paradise.flickspick.feature.result.Movie(
+fun Movie.toModel(tag: List<String> = emptyList(), id: Int = 0) = com.paradise.flickspick.feature.result.Movie(
+    id = id,
     name = title,
     image = imageUrl,
     starNum = grade,
@@ -36,7 +37,8 @@ fun Movie.toModel(tag: List<String> = emptyList()) = com.paradise.flickspick.fea
     plot = plot
 )
 
-fun RecMovy.toModel(tag: List<String> = emptyList()) = com.paradise.flickspick.feature.result.Movie(
+fun RecMovy.toModel(tag: List<String> = emptyList(), id: Int = 0) = com.paradise.flickspick.feature.result.Movie(
+    id = id,
     name = title,
     image = imageUrl,
     starNum = grade,

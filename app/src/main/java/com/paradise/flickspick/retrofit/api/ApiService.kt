@@ -7,6 +7,7 @@ import com.paradise.flickspick.retrofit.model.response.GetOttResponse
 import com.paradise.flickspick.retrofit.model.response.HomeResponse
 import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.retrofit.model.response.MyPageResponse
+import com.paradise.flickspick.retrofit.model.response.RefreshResponse
 import com.paradise.flickspick.retrofit.model.response.RegisterUserData
 import com.paradise.flickspick.retrofit.model.response.ResultResponse
 import com.paradise.flickspick.retrofit.model.response.ShareResponse
@@ -54,4 +55,9 @@ interface ApiService {
 
     @GET("api/v1/share")
     suspend fun getShare(): ShareResponse
+
+    @GET("api/v1/movies/{movieId}")
+    suspend fun getMovie(
+        @Path("movieId") movieId: Int,
+    ): RefreshResponse
 }
