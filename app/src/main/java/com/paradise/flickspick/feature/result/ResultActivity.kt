@@ -10,6 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,10 +36,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.paradise.flickspick.R
 import com.paradise.flickspick.common.component.PrimaryLargeButton
 import com.paradise.flickspick.common.component.RowStar
@@ -49,6 +54,9 @@ import com.paradise.flickspick.common.style.PickColor
 import com.paradise.flickspick.common.style.PickDisplay1
 import com.paradise.flickspick.common.style.PickHeadline
 import com.paradise.flickspick.common.style.PickSubhead1
+import com.paradise.flickspick.feature.home.HomeActivity
+import com.paradise.flickspick.util.startActivityWithAnimation
+import kotlin.math.absoluteValue
 
 class ResultActivity : ComponentActivity() {
 
@@ -76,7 +84,7 @@ class ResultActivity : ComponentActivity() {
                         enabled = true,
                         shape = RoundedCornerShape(0.dp),
                     ) {
-
+                        navigateToHome()
                     }
                 }
             ) { paddingValues ->
@@ -86,6 +94,10 @@ class ResultActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    private fun navigateToHome() {
+        startActivityWithAnimation<HomeActivity>()
     }
 }
 
@@ -123,6 +135,7 @@ private fun ResultScreen(
             )
         }
         Spacer(space = 36.dp)
+
         HorizontalPager(
             modifier = Modifier.fillMaxScreenWidth(),
             state = pagerState,
@@ -132,16 +145,22 @@ private fun ResultScreen(
             )
         ) { page ->
             changePage(page)
-            AsyncImage(
-                modifier = Modifier
+            Box(
+                Modifier
                     .fillMaxWidth()
-                    .padding(end = 14.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .aspectRatio(3f / 4f),
-                model = state.movies[page].image,
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
+                    .pagerCubeInDepthTransition(page, pagerState)
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 14.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .aspectRatio(3f / 4f),
+                    model = state.movies[page].image,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
         Spacer(space = 16.dp)
         Column(
@@ -194,4 +213,36 @@ private fun ColumnScope.MovieRecommendSection(
         text = state.plot,
         color = PickColor.Gray07
     )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
+    return (currentPage - page) + currentPageOffsetFraction
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun Modifier.pagerCubeInDepthTransition(page: Int, pagerState: PagerState) = graphicsLayer {
+    cameraDistance = 32f
+    val pageOffset = pagerState.calculateCurrentOffsetForPage(page)
+
+    if (pageOffset < -1f) {
+        alpha = 0f
+    } else if (pageOffset <= 0) {
+        alpha = 1f
+        transformOrigin = TransformOrigin(0f, 0.5f)
+        rotationY = -90f * pageOffset.absoluteValue
+
+    } else if (pageOffset <= 1) {
+        alpha = 1f
+        transformOrigin = TransformOrigin(1f, 0.5f)
+        rotationY = 90f * pageOffset.absoluteValue
+    } else {
+        alpha = 0f
+    }
+
+    if (pageOffset.absoluteValue <= 0.5) {
+        scaleY = 0.4f.coerceAtLeast(1 - pageOffset.absoluteValue)
+    } else if (pageOffset.absoluteValue <= 1) {
+        scaleY = 0.4f.coerceAtLeast(1 - pageOffset.absoluteValue)
+    }
 }

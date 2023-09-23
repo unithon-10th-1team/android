@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 data class Movie(
     val name: String = "매운새우깡",
-    val image: String = "https://blog.kakaocdn.net/dn/bmIwxA/btrVE1Ql6YL/kfImMiXEd19Kch9ziopPj0/img.jpg",
+    val image: String = "https://newsimg.hankookilbo.com/2019/05/08/201905082306085099_1.jpg",
     val starNum: Int = 3, // 3 / 5
     val description: String = "감독 빵빵이 | 각본 옥지 | 제작 빵빵이스튜디오",
     val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
