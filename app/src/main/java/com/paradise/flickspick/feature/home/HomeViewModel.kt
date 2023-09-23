@@ -38,7 +38,9 @@ data class HomeState(
     val usingOtt: List<Ott> = emptyList(),
     val recommends: List<SimpleMovie> = (0..3).map { SimpleMovie() },
 
-    )
+    // for share
+    val shareMovies: List<SimpleMovie> = emptyList(),
+)
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -75,5 +77,4 @@ class HomeViewModel @Inject constructor(
             recommends = response.similarMovies.map { it.toModel().toSimpleMovie() }
         )
     }
-
 }

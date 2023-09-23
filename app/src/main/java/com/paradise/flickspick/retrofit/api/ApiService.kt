@@ -9,6 +9,7 @@ import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.retrofit.model.response.MyPageResponse
 import com.paradise.flickspick.retrofit.model.response.RegisterUserData
 import com.paradise.flickspick.retrofit.model.response.ResultResponse
+import com.paradise.flickspick.retrofit.model.response.ShareResponse
 import com.paradise.flickspick.retrofit.response.UserAccountRes
 import retrofit2.Response
 import retrofit2.http.Body
@@ -47,8 +48,10 @@ interface ApiService {
 
     @GET("api/v1/me")
     suspend fun getMyPage(): MyPageResponse
-    suspend fun postOtt()
 
     @GET("api/v1/questions")
     suspend fun getQuestionList(): QuestionsResponse
+
+    @GET("api/v1/share")
+    suspend fun getShare(): ShareResponse
 }

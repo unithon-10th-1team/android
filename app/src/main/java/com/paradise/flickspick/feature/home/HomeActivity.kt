@@ -254,14 +254,6 @@ fun HomeScreen(
         ) {
 
         }
-        Spacer(space = 8.dp)
-        OutlineLargeButton(
-            text = "공유하기",
-            enabled = true,
-            textColor = PickColor.Primary,
-        ) {
-
-        }
         Spacer(space = 36.dp)
         PickHeadline(text = "나랑 비슷한 키워드를 가진\n사람들이 추천 받은 영화", color = PickColor.White)
         Spacer(space = 20.dp)

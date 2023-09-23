@@ -35,7 +35,9 @@ data class ResultState(
     val typename: String = "방구석 액션전문가",
     val movies: Movie = Movie(),
     val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
-    val recMovies: List<Movie> = (1..3).map { Movie() }
+    val recMovies: List<Movie> = (1..3).map { Movie() },
+
+    val shareMovies: List<Movie> = emptyList()
 )
 
 @HiltViewModel
@@ -47,6 +49,7 @@ class ResultViewModel @Inject constructor(
 
     init {
         getResult()
+        getShare()
     }
 
     private fun getResult() = viewModelScope.launch {
@@ -73,6 +76,14 @@ class ResultViewModel @Inject constructor(
 
     fun updateQuestionRequest(question: ResultRequest) {
         resultRequest = question
+
+
+    private fun getShare() = viewModelScope.launch {
+        val response = service.getShare().data
+
+        _state.value = _state.value.copy(
+            shareMovies = response.similarMovies.map { it.toModel() }
+        )
     }
 
     private val _state = MutableStateFlow(ResultState())

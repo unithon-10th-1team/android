@@ -141,7 +141,7 @@ private fun ResultScreen(
         ImageLoader.Builder(context).allowHardware(false) // Disallow hardware bitmaps.
             .build()
 
-    val shareMoviePainter = state.recMovies.map { movie ->
+    val shareMoviePainter = state.shareMovies.map { movie ->
         val painter = rememberAsyncImagePainter(
             model = movie.image,
             imageLoader = imageLoader,
