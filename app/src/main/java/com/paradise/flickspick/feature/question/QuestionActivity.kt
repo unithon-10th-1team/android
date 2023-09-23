@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.paradise.flickspick.databinding.ActivityQuestionBinding
 import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.util.startActivityWithAnimation
@@ -114,7 +115,11 @@ class QuestionActivity : AppCompatActivity() {
             index,
             viewModel.questionList.value?.get(index - 1) ?: return,
             viewModel.maxPageSize == index,
-            onClickedAnswer = viewModel::updateAnswer
+            onClickedAnswer = { state, questionId, answerId ->
+                viewModel.updateAnswer(state, questionId, answerId) {
+                    binding.loading.isVisible = true
+                }
+            },
         )
 
         fragmentManager
@@ -133,7 +138,11 @@ class QuestionActivity : AppCompatActivity() {
             index,
             viewModel.questionList.value?.get(index - 1) ?: return,
             viewModel.maxPageSize == index,
-            onClickedAnswer = viewModel::updateAnswer
+            onClickedAnswer = { state, questionId, answerId ->
+                viewModel.updateAnswer(state, questionId, answerId) {
+                    binding.loading.isVisible = true
+                }
+            }
         )
 
         fragmentManager

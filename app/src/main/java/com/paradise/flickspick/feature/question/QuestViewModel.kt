@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.paradise.flickspick.retrofit.api.ApiService
 import com.paradise.flickspick.retrofit.model.ResultRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,17 +62,21 @@ class QuestViewModel @Inject constructor(
         currentPage = state
     }
 
-    fun updateAnswer(state: Int, questionId: Int, answerId: Int) {
+    fun updateAnswer(state: Int, questionId: Int, answerId: Int, startLoading: () -> Unit) {
         answerList[state] = questionId to answerId
 
-        if (state == maxPageSize-1) {
-            val resultRequest = ResultRequest(
-                List(answerList.size) {
-                    ResultRequest.Answer(questionId = answerList[it].first, answerId = answerList[it].second)
-                },
-                ottIds
-            )
-            _completeInfo.value = resultRequest
+        viewModelScope.launch {
+            if (state == maxPageSize - 1) {
+                startLoading()
+                delay(1000L)
+                val resultRequest = ResultRequest(
+                    List(answerList.size) {
+                        ResultRequest.Answer(questionId = answerList[it].first, answerId = answerList[it].second)
+                    },
+                    ottIds
+                )
+                _completeInfo.value = resultRequest
+            }
         }
     }
 }
