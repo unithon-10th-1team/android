@@ -1,14 +1,12 @@
 package com.paradise.flickspick.retrofit.api
 
-import com.paradise.flickspick.retrofit.model.LoginUserData
-import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.retrofit.model.OttRequest
-import com.paradise.flickspick.retrofit.model.RegisterUserData
-import com.paradise.flickspick.retrofit.model.response.RegisterUserData
 import com.paradise.flickspick.retrofit.model.ResultRequest
 import com.paradise.flickspick.retrofit.model.response.GetOttResponse
 import com.paradise.flickspick.retrofit.model.response.HomeResponse
+import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.retrofit.model.response.MyPageResponse
+import com.paradise.flickspick.retrofit.model.response.RegisterUserData
 import com.paradise.flickspick.retrofit.model.response.ResultResponse
 import com.paradise.flickspick.retrofit.response.UserAccountRes
 import retrofit2.Response
@@ -28,6 +26,7 @@ interface ApiService {
     suspend fun getUser(
         @Path("id") id: Int,
     )
+
     @GET("api/v1/questions")
     suspend fun getQuestions()
 
