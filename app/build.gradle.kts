@@ -71,9 +71,9 @@ dependencies {
     implementation(libs.androidx.databinding.runtime)
     implementation(libs.logging.interceptor)
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.48")
