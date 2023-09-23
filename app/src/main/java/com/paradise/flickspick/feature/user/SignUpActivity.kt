@@ -14,14 +14,20 @@ import com.paradise.flickspick.databinding.ActivitySignUpBinding
 import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
 import com.paradise.flickspick.feature.user.view.UserPassWordView
-import com.paradise.flickspick.retrofit.RetrofitClient
+import com.paradise.flickspick.retrofit.api.ApiService
 import com.paradise.flickspick.retrofit.model.RegisterUserData
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var userViewModel: UserDataViewModel
+
+    @Inject
+    lateinit var instance: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -257,7 +263,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun registerUser(user: RegisterUserData) = lifecycleScope.launch {
         runCatching {
-            RetrofitClient.instance.registerUser(user)
+            instance.registerUser(user)
         }.onSuccess { token ->
             Toast.makeText(this@SignUpActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             finish()

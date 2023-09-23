@@ -2,12 +2,10 @@ package com.paradise.flickspick.core
 
 import android.app.Application
 import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class PickApplication: Application() {
-
-    fun getTokenManager(): TokenManager {
-        return TokenManager(applicationContext)
-    }
 }
 
 class TokenManager(val context: Context) {

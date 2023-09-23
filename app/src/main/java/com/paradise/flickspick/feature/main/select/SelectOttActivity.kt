@@ -11,8 +11,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.paradise.flickspick.databinding.ActivitySelectOttBinding
 import com.paradise.flickspick.util.startActivityWithAnimation
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class SelectOttActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectOttBinding

@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paradise.flickspick.retrofit.RetrofitClient
 import com.paradise.flickspick.retrofit.api.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SelectOttViewModel: ViewModel() {
-
-    private val service: ApiService = RetrofitClient.instance
+@HiltViewModel
+class SelectOttViewModel @Inject constructor(
+    val service: ApiService
+): ViewModel() {
 
     private val _ottList = MutableLiveData<List<OttModel>>()
     val ottList: LiveData<List<OttModel>> = _ottList

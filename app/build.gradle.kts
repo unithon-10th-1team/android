@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -33,11 +35,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -72,6 +74,16 @@ dependencies {
 
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
+//    androidTestImplementation("com.google.dagger:hilt-android-testing:2.47")
+//    kaptAndroidTest("com.google.dagger:hilt-compiler:2.47")
+//    testImplementation("com.google.dagger:hilt-android-testing:2.47")
+//    kaptTest("com.google.dagger:hilt-compiler:2.47")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

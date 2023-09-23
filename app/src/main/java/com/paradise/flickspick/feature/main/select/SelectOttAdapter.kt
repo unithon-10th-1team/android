@@ -35,7 +35,7 @@ class SelectOttAdapter(
             binding.tvOttName.text = item.name
 
             Glide.with(binding.imageView)
-                .load(R.drawable.ic_tving)
+                .load(item.url)
                 .into(binding.imageView)
 
             binding.root.setOnClickListener {
