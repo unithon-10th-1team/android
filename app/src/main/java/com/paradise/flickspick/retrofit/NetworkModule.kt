@@ -64,7 +64,7 @@ internal class NetworkModule {
         if (token != null) {
             val originalRequest = chain.request()
             val newRequest = originalRequest.newBuilder()
-                .header("Authorization", "Bearer $token")
+                .header("X-FP-AUTH-TOKEN", token)
                 .build()
             chain.proceed(newRequest)
         } else {

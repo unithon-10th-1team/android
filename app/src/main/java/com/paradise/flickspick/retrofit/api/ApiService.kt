@@ -1,10 +1,12 @@
 package com.paradise.flickspick.retrofit.api
 
+import com.google.gson.annotations.SerializedName
 import com.paradise.flickspick.feature.user.SignUpActivity
 import com.paradise.flickspick.retrofit.model.LoginUserData
 import com.paradise.flickspick.retrofit.model.RegisterUserData
 import com.paradise.flickspick.retrofit.response.UserAccountRes
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -29,6 +31,8 @@ interface ApiService {
     @GET("api/v1/ott")
     suspend fun getOtt(): GetOttResponse
 
-
-
+    @POST("api/v1/ott")
+    suspend fun postOtt(
+        @Body request: OttRequest
+    ): Response<Unit>
 }
