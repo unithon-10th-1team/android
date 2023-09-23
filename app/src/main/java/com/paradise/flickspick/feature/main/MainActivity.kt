@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.paradise.flickspick.R
 import com.paradise.flickspick.common.component.PrimaryLargeButton
-import com.paradise.flickspick.feature.home.HomeActivity
 import com.paradise.flickspick.feature.onboard.OnBoardActivity
 import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.util.finishWithAnimation
@@ -18,6 +17,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToOnBoard() {
-        startActivityWithAnimation<HomeActivity>()
+        startActivityWithAnimation<ResultActivity>()
     }
 }

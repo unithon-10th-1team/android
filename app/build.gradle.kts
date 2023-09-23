@@ -20,6 +20,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
 //        dataBinding = true
     }
     buildTypes {
@@ -58,6 +59,8 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.material3)
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -67,4 +70,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }
