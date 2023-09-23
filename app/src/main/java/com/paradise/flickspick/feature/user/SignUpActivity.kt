@@ -3,15 +3,13 @@ package com.paradise.flickspick.feature.user
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.paradise.flickspick.data.TokenManager
 import com.paradise.flickspick.databinding.ActivitySignUpBinding
 import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
@@ -19,9 +17,6 @@ import com.paradise.flickspick.feature.user.view.UserPassWordView
 import com.paradise.flickspick.retrofit.RetrofitClient
 import com.paradise.flickspick.retrofit.model.RegisterUserData
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
 

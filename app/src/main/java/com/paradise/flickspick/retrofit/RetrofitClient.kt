@@ -3,6 +3,7 @@ package com.paradise.flickspick.retrofit
 import com.paradise.flickspick.core.PickApplication
 import com.paradise.flickspick.core.TokenManager
 import com.paradise.flickspick.retrofit.api.ApiService
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,7 +29,6 @@ object RetrofitClient {
 
 class BearerTokenInterceptor(private val tokenManager: TokenManager) : Interceptor {
 
-    @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         val token = tokenManager.getToken()
         return if (token != null) {

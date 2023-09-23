@@ -1,11 +1,9 @@
 package com.paradise.flickspick.feature.user
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.paradise.flickspick.data.TokenManager
 import com.paradise.flickspick.core.PickApplication
 import com.paradise.flickspick.databinding.ActivityLoginBinding
 import com.paradise.flickspick.feature.main.select.SelectOttActivity
