@@ -47,37 +47,6 @@ class SignUpActivity : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this)[UserDataViewModel::class.java]
 
-        fun fadeInAnimation(view: View) {
-            val translateAnimator = ObjectAnimator.ofFloat(
-                view,
-                "translationX",
-                view.translationX + 500,
-                view.translationX
-            )
-
-            val fadeOutAnimator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
-
-            val animatorSet = AnimatorSet()
-            animatorSet.playTogether(translateAnimator, fadeOutAnimator)
-            animatorSet.duration = 500 // 1초 동안 실행
-
-            animatorSet.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator) {
-                }
-
-                override fun onAnimationEnd(animation: Animator) {
-                }
-
-                override fun onAnimationCancel(animation: Animator) {
-                }
-
-                override fun onAnimationRepeat(animation: Animator) {
-                }
-
-            })
-            animatorSet.start()
-        }
-
         userViewModel.userNameState.observe(this, Observer { state ->
             when (state) {
                 UserDataViewModel.State.FULL -> {
@@ -130,12 +99,18 @@ class SignUpActivity : AppCompatActivity() {
             when (pageIndex) {
                 0 -> {
                     //userNameValue = nameView.name
+                    if(userViewModel.name.isNotEmpty()){
+                        binding.buttonNext.isEnabled = true
+                    }
                     userNameValue = userViewModel.name
                     forward(binding.nameLayout, binding.idLayout)
                     pageIndex++
                 }
 
                 1 -> {
+                    if(userViewModel.id.isNotEmpty()){
+                        binding.buttonNext.isEnabled = true
+                    }
                     userIdValue = userViewModel.id
                     forward(binding.idLayout, binding.passwdLayout)
                     pageIndex++
@@ -143,6 +118,9 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 2 -> {
+                    if(userViewModel.passwd.isNotEmpty()){
+                        binding.buttonNext.isEnabled = true
+                    }
                     userPasswordValue = userViewModel.passwd
                     val user = RegisterUserData(username = userIdValue, nickname = userNameValue, password = userPasswordValue)
                     registerUser(user)
@@ -158,12 +136,18 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 1 -> {
+                    if(userViewModel.name.isNotEmpty()){
+                        binding.buttonNext.isEnabled = true
+                    }
                     back(binding.idLayout, binding.nameLayout)
                     pageIndex--
                 }
 
                 2 -> {
                     back(binding.passwdLayout, binding.idLayout)
+                    if(userViewModel.id.isNotEmpty()){
+                        binding.buttonNext.isEnabled = true
+                    }
                     binding.buttonNext.text = "다음"
                     pageIndex--
                 }

@@ -55,5 +55,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToSelectOtt() {
         startActivityWithAnimation<SelectOttActivity>()
+        finish()
     }
 }
