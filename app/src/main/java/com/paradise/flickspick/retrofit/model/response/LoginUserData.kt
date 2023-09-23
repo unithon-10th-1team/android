@@ -1,4 +1,4 @@
-package com.paradise.flickspick.retrofit.model
+package com.paradise.flickspick.retrofit.model.response
 
 data class LoginUserData(
     val username: String,

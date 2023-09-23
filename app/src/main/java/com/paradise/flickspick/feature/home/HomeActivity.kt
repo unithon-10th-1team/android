@@ -8,6 +8,7 @@ package com.paradise.flickspick.feature.home
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -66,10 +67,12 @@ import com.paradise.flickspick.common.style.PickSubhead1
 import com.paradise.flickspick.common.style.PickSubhead3
 import com.paradise.flickspick.feature.result.pagerCubeInDepthTransition
 import com.paradise.flickspick.util.pickClickable
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
 
-    private val vm: HomeViewModel = HomeViewModel()
+    private val vm: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,9 +161,9 @@ fun MyPageScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             state.usingOtt.forEach { ott ->
-                Image(
+                AsyncImage(
                     modifier = Modifier.size(48.dp),
-                    painter = painterResource(id = ott.icon),
+                    model = ott.imageUrl,
                     contentDescription = null,
                 )
             }

@@ -15,7 +15,7 @@ import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
 import com.paradise.flickspick.feature.user.view.UserPassWordView
 import com.paradise.flickspick.retrofit.api.ApiService
-import com.paradise.flickspick.retrofit.model.RegisterUserData
+import com.paradise.flickspick.retrofit.model.response.RegisterUserData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

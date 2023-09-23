@@ -1,6 +1,6 @@
 package com.paradise.flickspick.feature.main.select
 
-import com.paradise.flickspick.retrofit.api.Ott
+import com.paradise.flickspick.retrofit.model.response.Ott
 
 data class OttModel(
     val id: Int,

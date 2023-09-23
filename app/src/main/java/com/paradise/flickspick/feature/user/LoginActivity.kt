@@ -8,8 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import com.paradise.flickspick.core.TokenManager
 import com.paradise.flickspick.databinding.ActivityLoginBinding
 import com.paradise.flickspick.feature.main.select.SelectOttActivity
+import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.retrofit.api.ApiService
-import com.paradise.flickspick.retrofit.model.LoginUserData
+import com.paradise.flickspick.retrofit.model.response.LoginUserData
 import com.paradise.flickspick.util.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.signUp.setOnClickListener {
-            startActivityWithAnimation<SignUpActivity>()
+            startActivityWithAnimation<ResultActivity>() // recMovies
         }
         binding.buttonLogin.setOnClickListener {
             val userLoginData = LoginUserData(
