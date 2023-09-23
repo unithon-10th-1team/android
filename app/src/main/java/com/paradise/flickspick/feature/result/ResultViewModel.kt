@@ -76,7 +76,7 @@ class ResultViewModel @Inject constructor(
 
     fun updateQuestionRequest(question: ResultRequest) {
         resultRequest = question
-
+    }
 
     private fun getShare() = viewModelScope.launch {
         val response = service.getShare().data
