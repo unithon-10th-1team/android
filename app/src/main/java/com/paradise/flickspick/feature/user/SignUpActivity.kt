@@ -140,7 +140,6 @@ class SignUpActivity : AppCompatActivity() {
                     userPasswordValue = userViewModel.passwd
                     val user = RegisterUserData(username = userIdValue, nickname = userNameValue, password = userPasswordValue)
                     registerUser(user)
-                    finish()
                 }
             }
             binding.buttonNext.isEnabled = false

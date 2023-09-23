@@ -6,11 +6,11 @@ import android.content.Context
 class PickApplication: Application() {
 
     fun getTokenManager(): TokenManager {
-        return TokenManager(this)
+        return TokenManager(applicationContext)
     }
 }
 
-class TokenManager(context: Context) {
+class TokenManager(val context: Context) {
 
     private val sharedPreferences =
         context.getSharedPreferences("token_preferences", Context.MODE_PRIVATE)

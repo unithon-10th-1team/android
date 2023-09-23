@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.androidx.databinding.runtime)
     implementation(libs.logging.interceptor)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     implementation (libs.retrofit)
     implementation (libs.converter.gson)

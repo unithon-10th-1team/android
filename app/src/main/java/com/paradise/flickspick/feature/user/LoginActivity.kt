@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.paradise.flickspick.core.PickApplication
+import com.paradise.flickspick.core.TokenManager
 import com.paradise.flickspick.databinding.ActivityLoginBinding
 import com.paradise.flickspick.feature.main.select.SelectOttActivity
 import com.paradise.flickspick.retrofit.RetrofitClient
@@ -36,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         runCatching {
             RetrofitClient.instance.login(user)
         }.onSuccess { token ->
-            PickApplication().getTokenManager().saveToken(
+            TokenManager(context = this@LoginActivity).saveToken(
                 token.data.token
             )
             navigateToSelectOtt()
