@@ -1,6 +1,7 @@
 package com.paradise.flickspick.feature.question
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.paradise.flickspick.R
 import com.paradise.flickspick.databinding.ActivityQuestionBinding
+import com.paradise.flickspick.feature.result.ResultActivity
+import com.paradise.flickspick.util.startActivityWithAnimation
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class QuestionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityQuestionBinding
@@ -21,33 +26,51 @@ class QuestionActivity : AppCompatActivity() {
         binding = ActivityQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        startFragment()
+
 
         binding.ivBack.setOnClickListener {
-            if(supportFragmentManager.fragments.size > 1) removeFragment()
+            if (supportFragmentManager.fragments.size > 1) removeFragment()
             else onBackPressed()
         }
+        setStatManager()
 
+        viewModel.questionList.observe(this) {
+            startFragment()
+        }
+
+        viewModel.completeInfo.observe(this) {
+            if (it == null) return@observe
+            startActivityWithAnimation<ResultActivity>(
+                intentBuilder = { this.putExtra(QUESTION_REQUEST, it) }
+            )
+        }
+    }
+
+    private fun setStatManager() {
         viewModel.viewState.observe(this) {
             val isNext = viewModel.currentPage < it
 
-            when(it) {
+            when (it) {
                 1 -> {
-                    if(isNext) binding.questState1.startAnimator(true)
+                    if (isNext) binding.questState1.startAnimator(true)
                     else binding.questState2.startAnimator(false)
                 }
+
                 2 -> {
-                    if(isNext) binding.questState2.startAnimator(true)
+                    if (isNext) binding.questState2.startAnimator(true)
                     else binding.questState3.startAnimator(false)
                 }
+
                 3 -> {
-                    if(isNext) binding.questState3.startAnimator(true)
+                    if (isNext) binding.questState3.startAnimator(true)
                     else binding.questState4.startAnimator(false)
                 }
+
                 4 -> {
-                    if(isNext) binding.questState4.startAnimator(true)
+                    if (isNext) binding.questState4.startAnimator(true)
                     else binding.questState5.startAnimator(false)
                 }
+
                 5 -> {
                     binding.questState5.startAnimator(true)
                 }
@@ -86,7 +109,12 @@ class QuestionActivity : AppCompatActivity() {
     private fun startFragment() {
         index++
         val fragmentManager = supportFragmentManager
-        val fragment = QuestionFragment(index)
+        val fragment = QuestionFragment(
+            index,
+            viewModel.questionList.value?.get(index - 1) ?: return,
+            viewModel.maxPageSize == index,
+            onClickedAnswer = viewModel::updateAnswer
+        )
 
         fragmentManager
             .beginTransaction()
@@ -100,7 +128,12 @@ class QuestionActivity : AppCompatActivity() {
     fun addFragment() {
         index++
         val fragmentManager = supportFragmentManager
-        val fragment = QuestionFragment(index)
+        val fragment = QuestionFragment(
+            index,
+            viewModel.questionList.value?.get(index - 1) ?: return,
+            viewModel.maxPageSize == index,
+            onClickedAnswer = viewModel::updateAnswer
+        )
 
         fragmentManager
             .beginTransaction()
@@ -111,7 +144,7 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.fragments.size > 1) removeFragment()
+        if (supportFragmentManager.fragments.size > 1) removeFragment()
         else super.onBackPressed()
     }
 
@@ -125,5 +158,9 @@ class QuestionActivity : AppCompatActivity() {
             .commit()
 
         viewModel.updateViewState(index)
+    }
+
+    companion object {
+        const val QUESTION_REQUEST = "QUESTION_REQUEST"
     }
 }

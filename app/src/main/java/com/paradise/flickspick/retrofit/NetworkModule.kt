@@ -40,7 +40,7 @@ internal class NetworkModule {
         httpLoggingInterceptor: HttpLoggingInterceptor,
         bearerTokenInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
-        .addNetworkInterceptor(httpLoggingInterceptor)
+        .addInterceptor(httpLoggingInterceptor)
         .addInterceptor(bearerTokenInterceptor)
         .build()
 //        .readTimeout(10L, TimeUnit.SECONDS)

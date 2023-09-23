@@ -68,6 +68,8 @@ import com.paradise.flickspick.feature.ResultShare
 import com.paradise.flickspick.feature.home.HomeActivity
 import com.paradise.flickspick.feature.home.SimpleMovie
 import com.paradise.flickspick.feature.home.SmallMovieContent
+import com.paradise.flickspick.feature.question.QuestionActivity
+import com.paradise.flickspick.retrofit.model.ResultRequest
 import com.paradise.flickspick.util.FileUtil
 import com.paradise.flickspick.util.ShareUtil
 import com.paradise.flickspick.util.rememberToast
@@ -82,6 +84,10 @@ class ResultActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val questionRequest = intent.getSerializableExtra(QuestionActivity.QUESTION_REQUEST) as ResultRequest
+        vm.updateQuestionRequest(questionRequest)
+
         setContent {
             val state = vm.state.collectAsState().value
 

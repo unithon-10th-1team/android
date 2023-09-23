@@ -1,5 +1,6 @@
 package com.paradise.flickspick.retrofit.api
 
+import com.paradise.flickspick.feature.question.QuestionsResponse
 import com.paradise.flickspick.retrofit.model.OttRequest
 import com.paradise.flickspick.retrofit.model.ResultRequest
 import com.paradise.flickspick.retrofit.model.response.GetOttResponse
@@ -27,9 +28,6 @@ interface ApiService {
         @Path("id") id: Int,
     )
 
-    @GET("api/v1/questions")
-    suspend fun getQuestions()
-
     @GET("api/v1/ott")
     suspend fun getOtt(): GetOttResponse
 
@@ -49,4 +47,8 @@ interface ApiService {
 
     @GET("api/v1/me")
     suspend fun getMyPage(): MyPageResponse
+    suspend fun postOtt()
+
+    @GET("api/v1/questions")
+    suspend fun getQuestionList(): QuestionsResponse
 }
