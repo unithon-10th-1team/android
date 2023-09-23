@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.paradise.flickspick.R
 import com.paradise.flickspick.common.component.PrimaryLargeButton
+import com.paradise.flickspick.common.component.RowStar
 import com.paradise.flickspick.common.component.SmallTag
 import com.paradise.flickspick.common.layout.Spacer
 import com.paradise.flickspick.common.layout.TopAppBar
@@ -193,22 +194,4 @@ private fun ColumnScope.MovieRecommendSection(
         text = state.plot,
         color = PickColor.Gray07
     )
-}
-
-@Composable
-fun RowStar(
-    starNum: Int
-) {
-    (1..starNum).forEach {
-        Image(
-            painter = painterResource(id = R.drawable.ic_star_filled_24),
-            contentDescription = null
-        )
-    }
-    (1..5 - starNum).forEach {
-        Image(
-            painter = painterResource(id = R.drawable.ic_star_outlined_24),
-            contentDescription = null
-        )
-    }
 }

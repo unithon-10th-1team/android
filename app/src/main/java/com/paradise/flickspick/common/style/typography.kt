@@ -35,7 +35,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 36.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 58.sp,
+//        lineHeight = 58.sp,
         fontWeight = FontWeight.Bold,
     )
 
@@ -43,7 +43,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 32.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 52.sp,
+//        lineHeight = 52.sp,
         fontWeight = FontWeight.Bold,
     )
 
@@ -51,7 +51,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 28.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 44.sp,
+//        lineHeight = 44.sp,
         fontWeight = FontWeight.Bold,
     )
 
@@ -59,7 +59,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 24.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 38.sp,
+//        lineHeight = 38.sp,
         fontWeight = FontWeight.Bold,
     )
 
@@ -67,7 +67,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 20.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 32.sp,
+//        lineHeight = 32.sp,
         fontWeight = FontWeight.SemiBold,
     )
 
@@ -75,7 +75,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 16.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 26.sp,
+//        lineHeight = 26.sp,
         fontWeight = FontWeight.SemiBold,
     )
 
@@ -83,7 +83,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 14.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 22.sp,
+//        lineHeight = 22.sp,
         fontWeight = FontWeight.SemiBold,
     )
 
@@ -91,7 +91,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 12.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 20.sp,
+//        lineHeight = 20.sp,
         fontWeight = FontWeight.SemiBold,
     )
 
@@ -99,7 +99,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 20.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 32.sp,
+//        lineHeight = 32.sp,
         fontWeight = FontWeight.Medium,
     )
 
@@ -115,7 +115,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 14.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 22.sp,
+//        lineHeight = 22.sp,
         fontWeight = FontWeight.Medium,
     )
 
@@ -123,7 +123,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 12.sp,
         fontFamily = pretendardFamily,
-        lineHeight = 20.sp,
+//        lineHeight = 20.sp,
         fontWeight = FontWeight.Medium,
     )
 }
