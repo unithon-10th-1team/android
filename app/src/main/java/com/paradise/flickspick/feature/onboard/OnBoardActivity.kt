@@ -4,9 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import com.paradise.flickspick.common.component.OutlineLargeButton
 import com.paradise.flickspick.common.component.PrimaryLargeButton
+import com.paradise.flickspick.common.component.SmallTag
 import com.paradise.flickspick.common.layout.TopAppBar
 
 class OnBoardActivity: ComponentActivity() {
@@ -17,12 +20,7 @@ class OnBoardActivity: ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                TopAppBar(leadingContent = {  }, text = "hello") {
 
-                }
-                PrimaryLargeButton(text = "test", enabled = true) {
-
-                }
             }
         }
     }

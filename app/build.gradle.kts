@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.material3)
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

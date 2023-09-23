@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.paradise.flickspick.common.style.PickColor
@@ -22,6 +23,7 @@ import com.paradise.flickspick.util.pickClickable
 fun PrimaryLargeButton(
     text: String,
     enabled: Boolean,
+    shape: Shape = RoundedCornerShape(8.dp),
     onClick: () -> Unit,
 ) {
     val color =
@@ -32,7 +34,7 @@ fun PrimaryLargeButton(
             .height(42.dp)
             .background(
                 color = color.value,
-                shape = RoundedCornerShape(8.dp)
+                shape = shape,
             )
             .pickClickable {
                 onClick()

@@ -258,7 +258,6 @@ fun PickDisplay1(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -291,7 +290,6 @@ fun PickHeadline(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -325,7 +323,6 @@ fun PickSubhead3(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -358,7 +355,6 @@ fun PickSubhead2(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -391,7 +387,6 @@ fun PickSubhead1(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -424,7 +419,6 @@ fun PickBody4(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -457,7 +451,6 @@ fun PickBody3(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -490,7 +483,6 @@ fun PickBody2(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
 
@@ -523,6 +515,5 @@ fun PickBody1(
             textAlign = align
         ),
         overflow = overflow,
-        textAlign = TextAlign.Center
     )
 }
