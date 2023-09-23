@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paradise.flickspick.retrofit.api.ApiService
+import com.paradise.flickspick.retrofit.model.OttRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +38,10 @@ class SelectOttViewModel @Inject constructor(
     fun updateNextBtnState() {
         val value = ottList.value?.find { it.isSelected }
         _nextBtnState.value = value != null
+    }
+
+    fun postOtt(ids: IntArray) = viewModelScope.launch {
+        service.postOtt(request = OttRequest(ids = ids))
     }
 
     companion object {

@@ -5,12 +5,12 @@ package com.paradise.flickspick.feature.result
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -73,11 +72,13 @@ import com.paradise.flickspick.util.FileUtil
 import com.paradise.flickspick.util.ShareUtil
 import com.paradise.flickspick.util.rememberToast
 import com.paradise.flickspick.util.startActivityWithAnimation
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
+@AndroidEntryPoint
 class ResultActivity : ComponentActivity() {
 
-    private val vm: ResultViewModel = ResultViewModel()
+    private val vm: ResultViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,17 +125,17 @@ private fun ResultScreen(
     paddingValues: PaddingValues
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pageCount = state.movies.count()
+    val pageCount = state.movies
     val pagerState = rememberPagerState(initialPage = 0)
     val (currentPage, changePage) = remember { mutableStateOf(0) }
-    val targetMovie = state.movies[currentPage]
+//    val targetMovie = state.movies[currentPage]
 
     val context = LocalContext.current
     val imageLoader =
         ImageLoader.Builder(context).allowHardware(false) // Disallow hardware bitmaps.
             .build()
 
-    val shareMoviePainter = state.movies.map { movie ->
+    val shareMoviePainter = state.recMovies.map { movie ->
         val painter = rememberAsyncImagePainter(
             model = movie.image,
             imageLoader = imageLoader,
@@ -233,39 +234,23 @@ private fun ResultScreen(
             Spacer(space = 24.dp)
         }
         Spacer(space = 24.dp)
-        PickHeadline(text = "${state.nickname}님을 위한 추천영상", color = PickColor.White)
+        PickHeadline(text = "${state.nickname}님을 위한 추천 영화", color = PickColor.White)
         Spacer(space = 36.dp)
-        HorizontalPager(
-            modifier = Modifier.fillMaxScreenWidth(),
-            state = pagerState,
-            pageCount = pageCount,
-            contentPadding = PaddingValues(
-                horizontal = 16.dp,
-            )
-        ) { page ->
-            changePage(page)
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .pagerCubeInDepthTransition(page, pagerState)
-            ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 14.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .aspectRatio(3f / 4f),
-                    model = state.movies[page].image,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .aspectRatio(3f / 4f),
+            model = state.movies.image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
         Spacer(space = 16.dp)
         Column(
             modifier = Modifier.padding(horizontal = 10.dp)
         ) {
-            MovieRecommendSection(state = targetMovie)
+            MovieRecommendSection(state = state.movies)
         }
         Spacer(space = 56.dp)
         LazyRow(
@@ -275,7 +260,7 @@ private fun ResultScreen(
             item {
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
             }
-            items(state.movies) { item ->
+            items(state.recMovies) { item ->
                 SmallMovieContent(
                     simpleMovie = SimpleMovie(
                         name = item.name,
@@ -289,6 +274,7 @@ private fun ResultScreen(
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
             }
         }
+        Spacer(space = 56.dp)
     }
 }
 
