@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paradise.flickspick.R
 import com.paradise.flickspick.util.pickClickable
@@ -59,7 +60,7 @@ internal object PickTextStyle {
         color = Color.Black,
         fontSize = 24.sp,
         fontFamily = pretendardFamily,
-//        lineHeight = 38.sp,
+        lineHeight = 32.sp,
         fontWeight = FontWeight.Bold,
     )
 
@@ -352,7 +353,8 @@ fun PickSubhead2(
         text = text,
         style = PickTextStyle.Subhead2.copy(
             color = color,
-            textAlign = align
+            textAlign = align,
+            lineHeight = 22.sp,
         ),
         overflow = overflow,
     )
