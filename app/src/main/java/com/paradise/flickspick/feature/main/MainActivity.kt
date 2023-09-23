@@ -18,6 +18,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToActivity() {
-        startActivityWithAnimation<LoginActivity>()
+        startActivityWithAnimation<ResultActivity>()
     }
 }

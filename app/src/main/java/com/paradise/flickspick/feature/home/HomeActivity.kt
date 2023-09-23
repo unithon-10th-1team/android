@@ -64,6 +64,7 @@ import com.paradise.flickspick.common.style.PickDisplay1
 import com.paradise.flickspick.common.style.PickHeadline
 import com.paradise.flickspick.common.style.PickSubhead1
 import com.paradise.flickspick.common.style.PickSubhead3
+import com.paradise.flickspick.feature.result.pagerCubeInDepthTransition
 import com.paradise.flickspick.util.pickClickable
 
 class HomeActivity : ComponentActivity() {
@@ -201,6 +202,7 @@ fun HomeScreen(
     paddingValues: PaddingValues,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState()
 
     Column(
         modifier = Modifier
@@ -261,14 +263,18 @@ fun HomeScreen(
         Spacer(space = 20.dp)
         HorizontalPager(
             modifier = Modifier.fillMaxScreenWidth(),
-            state = rememberPagerState(),
+            state = pagerState,
             pageCount = state.similarRecommends.count(),
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
             )
         ) { page ->
             val similarTargetMovie = state.similarRecommends[page]
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pagerCubeInDepthTransition(page, pagerState)
+            ) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -283,7 +289,7 @@ fun HomeScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    PickHeadline(text = similarTargetMovie.name)
+                    PickHeadline(text = similarTargetMovie.name, color = PickColor.White)
                     Spacer(space = 8.dp)
                     RowStar(starNum = similarTargetMovie.starNum)
                 }
@@ -311,7 +317,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun SmallMovieContent(
+fun SmallMovieContent(
     simpleMovie: SimpleMovie,
 ) {
     Column(

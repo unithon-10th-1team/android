@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,6 +47,34 @@ fun PrimaryLargeButton(
         PickSubhead2(text = text)
     }
 }
+
+@Composable
+fun PrimarySmallButton(
+    text: String,
+    enabled: Boolean,
+    shape: Shape = RoundedCornerShape(8.dp),
+    onClick: () -> Unit,
+) {
+    val color =
+        animateColorAsState(if (enabled) PickColor.Primary else PickColor.Disabled, label = "")
+    Box(
+        modifier = Modifier
+            .width(150.dp)
+            .height(42.dp)
+            .background(
+                color = color.value,
+                shape = shape,
+            )
+            .pickClickable {
+                onClick()
+            }
+        ,
+        contentAlignment = Alignment.Center,
+    ) {
+        PickSubhead2(text = text)
+    }
+}
+
 
 @Composable
 fun OutlineLargeButton(

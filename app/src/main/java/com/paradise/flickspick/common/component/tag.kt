@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.paradise.flickspick.common.style.PickColor
 import com.paradise.flickspick.common.style.PickColor.Primary
+import com.paradise.flickspick.common.style.PickColor.White
 import com.paradise.flickspick.common.style.PickSubhead2
 import com.paradise.flickspick.util.pickClickable
 
@@ -36,6 +38,35 @@ fun SmallTag(
         PickSubhead2(
             text = text,
             color = Primary,
+        )
+    }
+}
+
+@Composable
+fun WhiteTag(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: (() -> Unit)? = null,
+) {
+    Box(
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = PickColor.White,
+                shape = RoundedCornerShape(20.dp),
+            )
+            .pickClickable(
+                onClick = onClick,
+            )
+            .padding(
+                horizontal = 16.dp,
+                vertical = 3.dp,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        PickSubhead2(
+            text = text,
+            color = White,
         )
     }
 }

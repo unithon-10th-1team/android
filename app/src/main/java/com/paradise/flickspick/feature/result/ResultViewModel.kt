@@ -18,7 +18,8 @@ data class Movie(
 data class ResultState(
     val nickname: String = "옥지얌빵빵",
     val typename: String = "방구석 액션전문가",
-    val movies: List<Movie> = (0..3).map { Movie() }
+    val movies: List<Movie> = (1..3).map { Movie() },
+    val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
 )
 
 class ResultViewModel : ViewModel() {
