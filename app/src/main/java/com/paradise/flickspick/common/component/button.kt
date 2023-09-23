@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ fun PrimaryLargeButton(
 @Composable
 fun OutlineLargeButton(
     text: String,
+    textColor: Color = PickColor.Black,
     enabled: Boolean,
     onClick: () -> Unit,
 ) {
@@ -69,7 +71,7 @@ fun OutlineLargeButton(
         ,
         contentAlignment = Alignment.Center,
     ) {
-        PickSubhead2(text = text)
+        PickSubhead2(text = text, color = textColor)
     }
 }
 
