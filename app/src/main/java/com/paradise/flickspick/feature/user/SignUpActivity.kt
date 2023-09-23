@@ -9,12 +9,14 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.paradise.flickspick.databinding.ActivitySignUpBinding
 import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
 import com.paradise.flickspick.feature.user.view.UserPassWordView
 import com.paradise.flickspick.retrofit.RetrofitClient
 import com.paradise.flickspick.retrofit.model.RegisterUserData
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -139,7 +141,7 @@ class SignUpActivity : AppCompatActivity() {
                 2 -> {
                     userPasswordValue = userViewModel.passwd
                     val user = RegisterUserData(username = userIdValue, nickname = userNameValue, password = userPasswordValue)
-                    registerUserRequest(user)
+                    registerUser(user)
                     finish()
                 }
             }
@@ -255,21 +257,8 @@ class SignUpActivity : AppCompatActivity() {
         animatorSet1.start()
     }
 
-    private fun registerUserRequest(user: RegisterUserData){
-        RetrofitClient.instance.registerUser(user).enqueue(object: Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    val userResponse = response.body()
-                    Log.d("UserSignUp isSuccessful", userResponse.toString())
-                } else {
-                    Log.e("UserSignUp fail", "")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("onFailure fail", t.toString())
-            }
-        })
+    private fun registerUser(user: RegisterUserData) = lifecycleScope.launch {
+        RetrofitClient.instance.registerUser(user)
     }
 
 }

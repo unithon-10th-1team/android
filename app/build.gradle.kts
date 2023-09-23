@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.androidx.databinding.runtime)
+    implementation(libs.logging.interceptor)
 
     implementation (libs.retrofit)
     implementation (libs.converter.gson)

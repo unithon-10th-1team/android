@@ -3,6 +3,7 @@ package com.paradise.flickspick.retrofit.api
 import com.paradise.flickspick.feature.user.SignUpActivity
 import com.paradise.flickspick.retrofit.model.LoginUserData
 import com.paradise.flickspick.retrofit.model.RegisterUserData
+import com.paradise.flickspick.retrofit.response.UserAccountRes
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,17 +15,16 @@ interface ApiService {
     @POST("api/v1/users")
     suspend fun registerUser(@Body user: RegisterUserData)
 
-    @GET("/api/v1/users/{id}")
+    @POST("api/v1/auth/login")
+    suspend fun login(@Body user: LoginUserData): UserAccountRes
+
+    @GET("api/v1/users/{id}")
     suspend fun getUser(
         @Path("id") id: Int,
     )
-
-    @POST("/api/v1/auth/login")
-    suspend fun signIn(@Body user: LoginUserData): Call<Void>
-
-    @GET("/api/v1/questions")
+    @GET("api/v1/questions")
     suspend fun getQuestions()
 
-    @GET("/api/v1/ott")
+    @GET("api/v1/ott")
     suspend fun getOtt()
 }
