@@ -16,6 +16,9 @@
         android:useEmbeddedDex="true"
         tools:targetApi="31">
         <activity
+            android:name=".feature.main.select.SelectOttActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.main.MainActivity"
             android:exported="true">
             <intent-filter>
