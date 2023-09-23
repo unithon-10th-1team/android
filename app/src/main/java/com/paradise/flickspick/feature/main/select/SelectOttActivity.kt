@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.paradise.flickspick.databinding.ActivitySelectOttBinding
+import com.paradise.flickspick.util.startActivityWithAnimation
 
 
 class SelectOttActivity : AppCompatActivity() {
@@ -43,6 +44,13 @@ class SelectOttActivity : AppCompatActivity() {
 
         viewModel.nextBtnState.observe(this) {
             binding.btnComplete.text = if(it) "다음" else "사용중이 아니에요."
+        }
+
+        binding.btnComplete.setOnClickListener {
+            val otts = viewModel.ottList.value
+            if(otts != null) {
+//                startActivityWithAnimation<RequestAc>()
+            }
         }
     }
 }

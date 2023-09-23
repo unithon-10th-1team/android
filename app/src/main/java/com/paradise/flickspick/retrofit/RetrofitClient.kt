@@ -1,12 +1,10 @@
 package com.paradise.flickspick.retrofit
 
-import android.app.Application
-import android.content.Context
-import com.paradise.flickspick.data.TokenManager
+import com.paradise.flickspick.core.PickApplication
+import com.paradise.flickspick.core.TokenManager
 import com.paradise.flickspick.retrofit.api.ApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -21,12 +19,29 @@ object RetrofitClient {
 
             .client(
                 OkHttpClient.Builder()
+                    .addInterceptor(BearerTokenInterceptor(PickApplication().getTokenManager()))
                     .build()
             )
             .build()
-            //.create(AwesomeService::class.java)
 
         retrofit.create(ApiService::class.java)
+    }
+}
+
+class BearerTokenInterceptor(private val tokenManager: TokenManager) : Interceptor {
+
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+        val token = tokenManager.getToken()
+        return if (token != null) {
+            val originalRequest = chain.request()
+            val newRequest = originalRequest.newBuilder()
+                .header("Authorization", "Bearer $token")
+                .build()
+            chain.proceed(newRequest)
+        } else {
+            chain.proceed(chain.request())
+        }
     }
 }
 

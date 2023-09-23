@@ -7,6 +7,7 @@ import com.paradise.flickspick.retrofit.response.UserAccountRes
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -26,5 +27,8 @@ interface ApiService {
     suspend fun getQuestions()
 
     @GET("api/v1/ott")
-    suspend fun getOtt()
+    suspend fun getOtt(): GetOttResponse
+
+    @POST("api/v1/ott")
+    suspend fun postOtt()
 }
