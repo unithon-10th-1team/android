@@ -29,6 +29,6 @@ interface ApiService {
     @GET("api/v1/ott")
     suspend fun getOtt(): GetOttResponse
 
-    @POST("api/v1/ott")
-    suspend fun postOtt()
+
+
 }
