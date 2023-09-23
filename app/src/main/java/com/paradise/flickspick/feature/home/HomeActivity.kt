@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
@@ -27,12 +26,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,12 +56,14 @@ import com.paradise.flickspick.common.component.PrimaryLargeButton
 import com.paradise.flickspick.common.component.RowStar
 import com.paradise.flickspick.common.component.SmallTag
 import com.paradise.flickspick.common.layout.Spacer
+import com.paradise.flickspick.common.layout.TopAppBar
 import com.paradise.flickspick.common.layout.fillMaxScreenWidth
 import com.paradise.flickspick.common.style.PickBody1
 import com.paradise.flickspick.common.style.PickColor
 import com.paradise.flickspick.common.style.PickDisplay1
 import com.paradise.flickspick.common.style.PickHeadline
 import com.paradise.flickspick.common.style.PickSubhead1
+import com.paradise.flickspick.common.style.PickSubhead3
 import com.paradise.flickspick.util.pickClickable
 
 class HomeActivity : ComponentActivity() {
@@ -79,6 +82,7 @@ class HomeActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
+                            .background(PickColor.Black),
                     ) {
                         BottomNavSelectItem(
                             icon = R.drawable.ic_home_disable,
@@ -100,7 +104,7 @@ class HomeActivity : ComponentActivity() {
                 }
             ) { paddingValues ->
                 Crossfade(targetState = index, label = "") { index ->
-                    when(index) {
+                    when (index) {
                         0 -> HomeScreen(state = state, paddingValues = paddingValues)
                         1 -> MyPageScreen(state = state)
                     }
@@ -117,10 +121,77 @@ fun MyPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = PickColor.Black)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 16.dp),
     ) {
-
+        TopAppBar(text = "마이페이지")
+        Spacer(space = 16.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(80.dp),
+                model = state.imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+            Spacer(space = 32.dp)
+            PickHeadline(text = "안녕하세요, ", color = PickColor.White)
+            PickHeadline(text = state.nickname, color = PickColor.Primary)
+            PickHeadline(text = "님", color = PickColor.White)
+        }
+        Spacer(space = 16.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            PickSubhead3(text = "사용하시는 OTT 서비스", color = PickColor.White)
+            Spacer(space = 8.dp)
+            Image(painter = painterResource(id = R.drawable.ic_next_24), contentDescription = null)
+        }
+        Spacer(space = 16.dp)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            state.usingOtt.forEach { ott ->
+                Image(
+                    modifier = Modifier.size(48.dp),
+                    painter = painterResource(id = ott.icon),
+                    contentDescription = null,
+                )
+            }
+        }
+        Spacer(space = 32.dp)
+        PickSubhead3(text = "추천 드리는 이유", color = PickColor.White)
+        Spacer(space = 32.dp)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            state.tag.forEach { tar ->
+                SmallTag(text = tar)
+            }
+        }
+        Spacer(space = 32.dp)
+        PickSubhead3(text = "추천 영화", color = PickColor.White)
+        Spacer(space = 16.dp)
+        LazyRow(
+            modifier = Modifier.fillMaxScreenWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            item {
+                androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
+            }
+            items(state.recommends) { item ->
+                SmallMovieContent(simpleMovie = item)
+            }
+            item {
+                androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
+            }
+        }
+        Spacer(space = 56.dp)
     }
 }
 
@@ -197,23 +268,25 @@ fun HomeScreen(
             )
         ) { page ->
             val similarTargetMovie = state.similarRecommends[page]
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 14.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .aspectRatio(3f / 4f),
-                model = similarTargetMovie.image,
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
-            Spacer(space = 8.dp)
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                PickHeadline(text = similarTargetMovie.name)
+            Column {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 14.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .aspectRatio(3f / 4f),
+                    model = similarTargetMovie.image,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
                 Spacer(space = 8.dp)
-                RowStar(starNum = similarTargetMovie.starNum)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    PickHeadline(text = similarTargetMovie.name)
+                    Spacer(space = 8.dp)
+                    RowStar(starNum = similarTargetMovie.starNum)
+                }
             }
         }
         Spacer(space = 32.dp)
