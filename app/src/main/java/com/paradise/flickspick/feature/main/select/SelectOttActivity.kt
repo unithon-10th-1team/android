@@ -71,6 +71,7 @@ class SelectOttActivity : AppCompatActivity() {
                             viewModel.postOtt(ids = ids)
                         }.onSuccess {
                             startActivityWithAnimation<QuestionActivity>()
+                            finish()
                         }.onFailure {
                             Toast.makeText(this, "fail $it", Toast.LENGTH_SHORT).show()
                         }

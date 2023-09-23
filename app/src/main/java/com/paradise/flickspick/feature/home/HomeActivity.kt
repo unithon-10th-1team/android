@@ -67,6 +67,7 @@ import com.paradise.flickspick.common.style.PickSubhead1
 import com.paradise.flickspick.common.style.PickSubhead3
 import com.paradise.flickspick.feature.result.pagerCubeInDepthTransition
 import com.paradise.flickspick.util.pickClickable
+import com.paradise.flickspick.util.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
