@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.signUp.setOnClickListener {
-            startActivityWithAnimation<ResultActivity>() // recMovies
+            startActivityWithAnimation<SignUpActivity>() // recMovies
         }
         binding.buttonLogin.setOnClickListener {
             val userLoginData = LoginUserData(
