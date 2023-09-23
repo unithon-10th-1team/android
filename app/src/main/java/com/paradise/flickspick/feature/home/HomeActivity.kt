@@ -65,6 +65,7 @@ import com.paradise.flickspick.common.style.PickDisplay1
 import com.paradise.flickspick.common.style.PickHeadline
 import com.paradise.flickspick.common.style.PickSubhead1
 import com.paradise.flickspick.common.style.PickSubhead3
+import com.paradise.flickspick.feature.question.QuestionActivity
 import com.paradise.flickspick.feature.result.pagerCubeInDepthTransition
 import com.paradise.flickspick.util.pickClickable
 import com.paradise.flickspick.util.startActivityWithAnimation
@@ -110,7 +111,9 @@ class HomeActivity : ComponentActivity() {
             ) { paddingValues ->
                 Crossfade(targetState = index, label = "") { index ->
                     when (index) {
-                        0 -> HomeScreen(state = state, paddingValues = paddingValues)
+                        0 -> HomeScreen(state = state, paddingValues = paddingValues) {
+                            startActivityWithAnimation<QuestionActivity>()
+                        }
                         1 -> MyPageScreen(state = state)
                     }
                 }
@@ -204,6 +207,7 @@ fun MyPageScreen(
 fun HomeScreen(
     state: HomeState,
     paddingValues: PaddingValues,
+    moveText: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
@@ -252,7 +256,7 @@ fun HomeScreen(
             text = "테스트 다시하기",
             enabled = true,
         ) {
-
+            moveText()
         }
         Spacer(space = 36.dp)
         PickHeadline(text = "나랑 비슷한 키워드를 가진\n사람들이 추천 받은 영화", color = PickColor.White)

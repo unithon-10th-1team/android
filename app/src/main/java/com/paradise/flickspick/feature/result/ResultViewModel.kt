@@ -45,14 +45,13 @@ class ResultViewModel @Inject constructor(
     private val service: ApiService
 ) : ViewModel() {
 
-    var resultRequest: ResultRequest? = null
+    private var resultRequest: ResultRequest? = null
 
     init {
-        getResult()
         getShare()
     }
 
-    private fun getResult() = viewModelScope.launch {
+    fun getResult() = viewModelScope.launch {
         runCatching {
             service.getRec(
                 result = ResultRequest(

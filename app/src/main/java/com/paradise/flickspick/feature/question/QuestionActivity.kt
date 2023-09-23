@@ -1,13 +1,11 @@
 package com.paradise.flickspick.feature.question
 
 import android.animation.ValueAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.paradise.flickspick.R
 import com.paradise.flickspick.databinding.ActivityQuestionBinding
 import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.util.startActivityWithAnimation
@@ -27,7 +25,6 @@ class QuestionActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
         binding.ivBack.setOnClickListener {
             if (supportFragmentManager.fragments.size > 1) removeFragment()
             else onBackPressed()
@@ -43,6 +40,7 @@ class QuestionActivity : AppCompatActivity() {
             startActivityWithAnimation<ResultActivity>(
                 intentBuilder = { this.putExtra(QUESTION_REQUEST, it) }
             )
+            finish()
         }
     }
 

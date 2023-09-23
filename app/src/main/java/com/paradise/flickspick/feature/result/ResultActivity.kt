@@ -88,6 +88,8 @@ class ResultActivity : ComponentActivity() {
         val questionRequest = intent.getSerializableExtra(QuestionActivity.QUESTION_REQUEST) as ResultRequest
         vm.updateQuestionRequest(questionRequest)
 
+        vm.getResult()
+
         setContent {
             val state = vm.state.collectAsState().value
 
@@ -122,6 +124,7 @@ class ResultActivity : ComponentActivity() {
 
     private fun navigateToHome() {
         startActivityWithAnimation<HomeActivity>()
+        finish()
     }
 }
 
