@@ -17,6 +17,7 @@ import java.time.OffsetTime
 import javax.inject.Inject
 
 data class SimpleMovie(
+    val id: Int = 0,
     val name: String = "매운새우깡",
     val image: String = "https://blog.kakaocdn.net/dn/bmIwxA/btrVE1Ql6YL/kfImMiXEd19Kch9ziopPj0/img.jpg",
     val starNum: Int = 3, // 3 / 5
@@ -63,8 +64,8 @@ class HomeViewModel @Inject constructor(
             nickname = response.user.nickname,
             typename = recType.type,
             tag = recType.tags,
-            similarRecommends = response.similarMovies.map { it.toModel().toSimpleMovie() },
-            oppositeRecommends = response.differentMovies.map { it.toModel().toSimpleMovie() },
+            similarRecommends = response.similarMovies.map { it.toModel().toSimpleMovie(it.id) },
+            oppositeRecommends = response.differentMovies.map { it.toModel().toSimpleMovie(it.id) },
             imageUrl = recType.imageUrl,
         )
     }
@@ -74,7 +75,7 @@ class HomeViewModel @Inject constructor(
 
         _state.value = _state.value.copy(
             usingOtt = response.otts,
-            recommends = response.similarMovies.map { it.toModel().toSimpleMovie() }
+            recommends = response.similarMovies.map { it.toModel().toSimpleMovie(it.id) }
         )
     }
 }

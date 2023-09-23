@@ -1,13 +1,17 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.paradise.flickspick.feature.result
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +24,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -31,9 +37,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -75,7 +84,9 @@ import com.paradise.flickspick.util.ShareUtil
 import com.paradise.flickspick.util.rememberToast
 import com.paradise.flickspick.util.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ResultActivity : ComponentActivity() {
@@ -93,6 +104,10 @@ class ResultActivity : ComponentActivity() {
 
         setContent {
             val state = vm.state.collectAsState().value
+
+            BackHandler {
+                finish()
+            }
 
             Scaffold(
                 topBar = {
@@ -118,6 +133,9 @@ class ResultActivity : ComponentActivity() {
                 ResultScreen(
                     state = state ?: ResultState(nickname = nickname ?: ""),
                     paddingValues = paddingValues,
+                    onRefresh = { movieId ->
+                        vm.updateMovie(movieId)
+                    }
                 )
             }
         }
@@ -132,7 +150,8 @@ class ResultActivity : ComponentActivity() {
 @Composable
 private fun ResultScreen(
     state: ResultState,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onRefresh: (Int) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pageCount = state.movies
@@ -163,11 +182,13 @@ private fun ResultScreen(
     }
 
     val toast = rememberToast()
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .background(color = PickColor.Black)
             .padding(horizontal = 20.dp)
             .padding(paddingValues),
@@ -277,7 +298,13 @@ private fun ResultScreen(
                         image = item.image,
                         starNum = item.starNum,
                         description = item.description,
-                    )
+                    ),
+                    onClick = {
+                        onRefresh(item.id)
+                        scope.launch {
+                            scrollState.animateScrollTo(1000)
+                        }
+                    }
                 )
             }
             item {
@@ -353,4 +380,22 @@ fun Modifier.pagerCubeInDepthTransition(page: Int, pagerState: PagerState) = gra
     } else if (pageOffset.absoluteValue <= 1) {
         scaleY = 0.4f.coerceAtLeast(1 - pageOffset.absoluteValue)
     }
+}
+
+@Composable
+fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }

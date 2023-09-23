@@ -17,6 +17,7 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -70,6 +71,7 @@ import com.paradise.flickspick.feature.result.pagerCubeInDepthTransition
 import com.paradise.flickspick.util.pickClickable
 import com.paradise.flickspick.util.startActivityWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
@@ -111,10 +113,14 @@ class HomeActivity : ComponentActivity() {
             ) { paddingValues ->
                 Crossfade(targetState = index, label = "") { index ->
                     when (index) {
-                        0 -> HomeScreen(state = state, paddingValues = paddingValues) {
+                        0 -> HomeScreen(state = state, paddingValues = paddingValues, refreshMovie = {
+
+                        }) {
                             startActivityWithAnimation<QuestionActivity>()
                         }
-                        1 -> MyPageScreen(state = state)
+                        1 -> MyPageScreen(state = state) {
+
+                        }
                     }
                 }
             }
@@ -125,6 +131,7 @@ class HomeActivity : ComponentActivity() {
 @Composable
 fun MyPageScreen(
     state: HomeState,
+    onRefreshMovie: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -193,7 +200,9 @@ fun MyPageScreen(
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
             }
             items(state.recommends) { item ->
-                SmallMovieContent(simpleMovie = item)
+                SmallMovieContent(simpleMovie = item) {
+                    onRefreshMovie()
+                }
             }
             item {
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
@@ -207,10 +216,13 @@ fun MyPageScreen(
 fun HomeScreen(
     state: HomeState,
     paddingValues: PaddingValues,
+    refreshMovie: (Int) -> Unit,
     moveText: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -220,7 +232,7 @@ fun HomeScreen(
                 horizontal = 20.dp
             )
             .padding(paddingValues)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(scrollState),
     ) {
         Spacer(space = 74.dp)
         Row(
@@ -306,7 +318,12 @@ fun HomeScreen(
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
             }
             items(state.oppositeRecommends) { item ->
-                SmallMovieContent(simpleMovie = item)
+                SmallMovieContent(simpleMovie = item) {
+                    scope.launch {
+                        scrollState.animateScrollTo(1000)
+                    }
+                    refreshMovie(item.id)
+                }
             }
             item {
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(16.dp))
@@ -319,9 +336,14 @@ fun HomeScreen(
 @Composable
 fun SmallMovieContent(
     simpleMovie: SimpleMovie,
+    onClick: (() -> Unit)? = null,
 ) {
     Column(
-        modifier = Modifier.width(150.dp)
+        modifier = Modifier
+            .width(150.dp)
+            .pickClickable {
+                onClick?.let { it() }
+            }
     ) {
         AsyncImage(
             modifier = Modifier
