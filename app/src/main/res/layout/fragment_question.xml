@@ -9,17 +9,17 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:fontFamily="@font/pretendard_semi_bold"
         android:lineHeight="32dp"
-        android:text="질문 1. 당신은 \n어느 나라 사람입니까!"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="질문 1. 당신은 어느 나라 사람입니까! 질문 1. 당신은 어느 나라 사람입니까! 질문 1. 당신은 어느 나라 사람입니까! 질문 1. 당신은 어느 나라 사람입니까!"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

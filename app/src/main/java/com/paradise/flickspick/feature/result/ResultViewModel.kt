@@ -45,6 +45,8 @@ class ResultViewModel @Inject constructor(
     private val service: ApiService
 ) : ViewModel() {
 
+    var resultRequest: ResultRequest? = null
+
     init {
         getResult()
         getShare()
@@ -53,9 +55,9 @@ class ResultViewModel @Inject constructor(
     private fun getResult() = viewModelScope.launch {
         runCatching {
             service.getRec(
-                result = ResultRequest( // TODO 정보 채우기
-                    answers = emptyList(),
-                    ottIds = emptyList()
+                result = ResultRequest(
+                    answers = resultRequest?.answers ?: return@launch ,
+                    ottIds = resultRequest?.ottIds ?: return@launch
                 )
             )
         }.onSuccess { result ->
@@ -72,7 +74,9 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-
+    fun updateQuestionRequest(question: ResultRequest) {
+        resultRequest = question
+    }
 
     private fun getShare() = viewModelScope.launch {
         val response = service.getShare().data
