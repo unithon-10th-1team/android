@@ -1,23 +1,15 @@
 package com.paradise.flickspick.feature.user
 
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.paradise.flickspick.R
 import com.paradise.flickspick.data.TokenManager
 import com.paradise.flickspick.databinding.ActivityLoginBinding
-import com.paradise.flickspick.feature.onboard.OnBoardActivity
 import com.paradise.flickspick.retrofit.RetrofitClient
 import com.paradise.flickspick.retrofit.model.LoginUserData
-import com.paradise.flickspick.retrofit.model.RegisterUserData
 import com.paradise.flickspick.util.startActivityWithAnimation
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,14 +28,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun logIn(user: LoginUserData) = lifecycleScope.launch {
+    private fun logIn(user: LoginUserData) = lifecycleScope.launch {
         runCatching {
             RetrofitClient.instance.login(user)
         }.onSuccess { token ->
             TokenManager(this@LoginActivity).saveToken(token = token.data.token)
 
         }.onFailure {
-            Toast.makeText(this@LoginActivity, "잘못된 요청입니다!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LoginActivity, "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
         }
     }
 }
