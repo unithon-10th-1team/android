@@ -55,7 +55,7 @@ class ResultViewModel @Inject constructor(
     private fun getResult() = viewModelScope.launch {
         runCatching {
             service.getRec(
-                result = ResultRequest( // TODO 정보 채우기
+                result = ResultRequest(
                     answers = resultRequest?.answers ?: return@launch ,
                     ottIds = resultRequest?.ottIds ?: return@launch
                 )
