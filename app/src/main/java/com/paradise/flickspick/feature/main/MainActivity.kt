@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.paradise.flickspick.R
 import com.paradise.flickspick.feature.result.ResultActivity
 import com.paradise.flickspick.feature.user.LoginActivity
+import com.paradise.flickspick.feature.user.SignUpActivity
 import com.paradise.flickspick.util.startActivityWithAnimation
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +16,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToActivity() {
-        startActivityWithAnimation<ResultActivity>()
+        startActivityWithAnimation<SignUpActivity>()
     }
 }
