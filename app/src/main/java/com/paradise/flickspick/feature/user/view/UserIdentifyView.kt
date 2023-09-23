@@ -26,6 +26,7 @@ class UserIdentifyView (context: Context, attrs: AttributeSet? = null) : BaseFra
 
                 //입력값 담기
                 id = vb.userPasswordField.text.toString()
+                userViewModel.id = vb.userPasswordField.text.toString()
 
                 if(id.isNotEmpty()){
                     userViewModel.setIDState(UserDataViewModel.State.FULL)

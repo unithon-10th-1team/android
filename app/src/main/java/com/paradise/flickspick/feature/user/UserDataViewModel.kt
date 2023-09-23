@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModelStoreOwner
 class UserDataViewModel: ViewModel() {
     enum class State { EMPTY, FULL }
 
+    var name = ""
+    var id = ""
+    var passwd = ""
+
     private val _userNameState = MutableLiveData<State>()
     val userNameState: LiveData<State>
         get() = _userNameState

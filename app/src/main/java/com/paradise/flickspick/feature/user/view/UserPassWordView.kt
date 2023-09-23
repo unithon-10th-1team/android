@@ -25,6 +25,7 @@ class UserPassWordView (context: Context, attrs: AttributeSet? = null) : BaseFra
 
                 //입력값 담기
                 passWord = vb.userPasswordField.text.toString()
+                userViewModel.passwd = vb.userPasswordField.text.toString()
 
                 if(passWord.isNotEmpty()){
                     userViewModel.setPassWordState(UserDataViewModel.State.FULL)

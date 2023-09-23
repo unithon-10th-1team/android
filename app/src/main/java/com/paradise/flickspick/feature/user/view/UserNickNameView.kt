@@ -25,9 +25,9 @@ class UserNickNameView (context: Context, attrs: AttributeSet? = null) : BaseFra
 
             //값 변경 시 실행되는 함수
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                //입력값 담기
                 name = vb.userNameField.text.toString()
+                //입력값 담기
+                userViewModel.name = vb.userNameField.text.toString()
 
                 if(name.isNotEmpty()){
                     userViewModel.setNameState(UserDataViewModel.State.FULL)

@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,11 @@ import com.paradise.flickspick.databinding.ActivitySignUpBinding
 import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
 import com.paradise.flickspick.feature.user.view.UserPassWordView
+import com.paradise.flickspick.retrofit.RetrofitClient
+import com.paradise.flickspick.retrofit.model.RegisterUserData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -28,9 +34,9 @@ class SignUpActivity : AppCompatActivity() {
         val passwdView = UserPassWordView(this@SignUpActivity)
         var pageIndex = 0
 
-        var a = ""
-        var b = ""
-        var c = ""
+        var userNameValue = ""
+        var userIdValue = ""
+        var userPasswordValue = ""
 
         binding.buttonNext.isEnabled = false
 
@@ -118,19 +124,23 @@ class SignUpActivity : AppCompatActivity() {
         binding.buttonNext.setOnClickListener {
             when (pageIndex) {
                 0 -> {
-                    a = nameView.name
+                    //userNameValue = nameView.name
+                    userNameValue = userViewModel.name
                     forward(binding.nameLayout, binding.idLayout)
                     pageIndex++
                 }
 
                 1 -> {
-                    b = nameView.name
+                    userIdValue = userViewModel.id
                     forward(binding.idLayout, binding.passwdLayout)
                     pageIndex++
                 }
 
                 2 -> {
-                    c = nameView.name
+                    userPasswordValue = userViewModel.passwd
+                    val user = RegisterUserData(username = userIdValue, nickname = userNameValue, password = userPasswordValue)
+                    registerUserRequest(user)
+                    finish()
                 }
             }
             binding.buttonNext.isEnabled = false
@@ -244,4 +254,22 @@ class SignUpActivity : AppCompatActivity() {
         })
         animatorSet1.start()
     }
+
+    private fun registerUserRequest(user: RegisterUserData){
+        RetrofitClient.instance.registerUser(user).enqueue(object: Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    val userResponse = response.body()
+                    Log.d("UserSignUp isSuccessful", userResponse.toString())
+                } else {
+                    Log.e("UserSignUp fail", "")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("onFailure fail", t.toString())
+            }
+        })
+    }
+
 }
