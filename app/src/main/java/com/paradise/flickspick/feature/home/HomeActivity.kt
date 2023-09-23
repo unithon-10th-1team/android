@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
@@ -111,16 +112,14 @@ class HomeActivity : ComponentActivity() {
                     }
                 }
             ) { paddingValues ->
-                Crossfade(targetState = index, label = "") { index ->
-                    when (index) {
-                        0 -> HomeScreen(state = state, paddingValues = paddingValues, refreshMovie = {
+                when (index) {
+                    0 -> HomeScreen(state = state, paddingValues = paddingValues, refreshMovie = {
 
-                        }) {
-                            startActivityWithAnimation<QuestionActivity>()
-                        }
-                        1 -> MyPageScreen(state = state) {
+                    }) {
+                        startActivityWithAnimation<QuestionActivity>()
+                    }
+                    1 -> MyPageScreen(state = state) {
 
-                        }
                     }
                 }
             }

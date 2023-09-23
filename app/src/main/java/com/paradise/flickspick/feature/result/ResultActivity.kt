@@ -110,16 +110,16 @@ class ResultActivity : ComponentActivity() {
             }
 
             Scaffold(
-                topBar = {
-                    TopAppBar(
-                        leadingContent = {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_back_24),
-                                contentDescription = null,
-                            )
-                        },
-                    )
-                },
+//                topBar = {
+//                    TopAppBar(
+//                        leadingContent = {
+//                            Image(
+//                                painter = painterResource(id = R.drawable.ic_back_24),
+//                                contentDescription = null,
+//                            )
+//                        },
+//                    )
+//                },
                 bottomBar = {
                     PrimaryLargeButton(
                         text = "홈으로 이동하기",

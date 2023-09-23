@@ -25,19 +25,19 @@ data class SimpleMovie(
 )
 
 data class HomeState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
 
     // for home
-    val nickname: String = "옥지얌빵빵",
-    val typename: String = "방구석 액션전문가",
-    val tag: List<String> = listOf("화끈함", "섹시함", "장석연"),
-    val similarRecommends: List<SimpleMovie> = (0..3).map { SimpleMovie() },
-    val oppositeRecommends: List<SimpleMovie> = (0..3).map { SimpleMovie() },
+    val nickname: String = "",
+    val typename: String = "",
+    val tag: List<String> = emptyList(),
+    val similarRecommends: List<SimpleMovie> = emptyList(),
+    val oppositeRecommends: List<SimpleMovie> = emptyList(),
 
     // for myPage
     val imageUrl: String = "https://blog.kakaocdn.net/dn/bmIwxA/btrVE1Ql6YL/kfImMiXEd19Kch9ziopPj0/img.jpg",
     val usingOtt: List<Ott> = emptyList(),
-    val recommends: List<SimpleMovie> = (0..3).map { SimpleMovie() },
+    val recommends: List<SimpleMovie> = emptyList(),
 
     // for share
     val shareMovies: List<SimpleMovie> = emptyList(),
@@ -67,6 +67,7 @@ class HomeViewModel @Inject constructor(
             similarRecommends = response.similarMovies.map { it.toModel().toSimpleMovie(it.id) },
             oppositeRecommends = response.differentMovies.map { it.toModel().toSimpleMovie(it.id) },
             imageUrl = recType.imageUrl,
+            isLoading = false,
         )
     }
 
