@@ -38,7 +38,10 @@ class QuestionActivity : AppCompatActivity() {
         viewModel.completeInfo.observe(this) {
             if (it == null) return@observe
             startActivityWithAnimation<ResultActivity>(
-                intentBuilder = { this.putExtra(QUESTION_REQUEST, it) }
+                intentBuilder = {
+                    this.putExtra(QUESTION_REQUEST, it)
+                    this.putExtra(QUESTION_NICKNAME, viewModel.nickname)
+                }
             )
             finish()
         }
@@ -160,5 +163,6 @@ class QuestionActivity : AppCompatActivity() {
 
     companion object {
         const val QUESTION_REQUEST = "QUESTION_REQUEST"
+        const val QUESTION_NICKNAME = "QUESTION_NICKNAME"
     }
 }

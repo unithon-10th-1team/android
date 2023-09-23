@@ -29,6 +29,7 @@ class QuestViewModel @Inject constructor(
     var currentPage = 0
     var maxPageSize = 0
     var ottIds = arrayListOf<Int>()
+    var nickname = ""
 
     init {
         getQuestionList()
@@ -48,6 +49,7 @@ class QuestViewModel @Inject constructor(
         viewModelScope.launch {
             val response = service.getMyPage()
             ottIds.addAll(List(response.data.otts.size) { response.data.otts[it].id })
+            nickname = response.data.user.nickname
         }
     }
 

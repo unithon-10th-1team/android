@@ -86,9 +86,10 @@ class ResultActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val questionRequest = intent.getSerializableExtra(QuestionActivity.QUESTION_REQUEST) as ResultRequest
+        val nickname = intent.getStringExtra(QuestionActivity.QUESTION_NICKNAME) ?: ""
         vm.updateQuestionRequest(questionRequest)
 
-        vm.getResult()
+        vm.getResult(nickname)
 
         setContent {
             val state = vm.state.collectAsState().value
@@ -115,7 +116,7 @@ class ResultActivity : ComponentActivity() {
                 }
             ) { paddingValues ->
                 ResultScreen(
-                    state = state,
+                    state = state ?: ResultState(nickname = nickname ?: ""),
                     paddingValues = paddingValues,
                 )
             }

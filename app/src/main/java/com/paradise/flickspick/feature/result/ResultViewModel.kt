@@ -51,7 +51,7 @@ class ResultViewModel @Inject constructor(
         getShare()
     }
 
-    fun getResult() = viewModelScope.launch {
+    fun getResult(nickname: String) = viewModelScope.launch {
         runCatching {
             service.getRec(
                 result = ResultRequest(
@@ -61,8 +61,8 @@ class ResultViewModel @Inject constructor(
             )
         }.onSuccess { result ->
             val response = result.data
-            _state.value = _state.value.copy(
-                nickname = "임시 닉네임", // TODO 닉네임 정보 누락
+            _state.value = _state.value?.copy(
+                nickname = nickname,
                 typename = response.recType.type,
                 movies = response.movie.toModel(response.recType.tags),
                 tag = response.recType.tags,
@@ -80,11 +80,11 @@ class ResultViewModel @Inject constructor(
     private fun getShare() = viewModelScope.launch {
         val response = service.getShare().data
 
-        _state.value = _state.value.copy(
+        _state.value = _state.value?.copy(
             shareMovies = response.similarMovies.map { it.toModel() }
         )
     }
 
-    private val _state = MutableStateFlow(ResultState())
-    val state: StateFlow<ResultState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<ResultState?>(null)
+    val state: StateFlow<ResultState?> = _state.asStateFlow()
 }
