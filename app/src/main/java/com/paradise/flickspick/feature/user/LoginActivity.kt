@@ -1,9 +1,11 @@
 package com.paradise.flickspick.feature.user
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.paradise.flickspick.data.TokenManager
 import com.paradise.flickspick.core.PickApplication
 import com.paradise.flickspick.databinding.ActivityLoginBinding
 import com.paradise.flickspick.feature.main.select.SelectOttActivity
@@ -32,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun logIn(user: LoginUserData) = lifecycleScope.launch {
+    private fun logIn(user: LoginUserData) = lifecycleScope.launch {
         runCatching {
             RetrofitClient.instance.login(user)
         }.onSuccess { token ->
@@ -41,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
             )
             navigateToSelectOtt()
         }.onFailure {
-            Toast.makeText(this@LoginActivity, "잘못된 요청입니다!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LoginActivity, "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
         }
     }
 

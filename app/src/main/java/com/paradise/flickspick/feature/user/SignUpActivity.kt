@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.paradise.flickspick.data.TokenManager
 import com.paradise.flickspick.databinding.ActivitySignUpBinding
 import com.paradise.flickspick.feature.user.view.UserIdentifyView
 import com.paradise.flickspick.feature.user.view.UserNickNameView
@@ -136,6 +138,7 @@ class SignUpActivity : AppCompatActivity() {
                     userIdValue = userViewModel.id
                     forward(binding.idLayout, binding.passwdLayout)
                     pageIndex++
+                    binding.buttonNext.text = "완료"
                 }
 
                 2 -> {
@@ -161,6 +164,7 @@ class SignUpActivity : AppCompatActivity() {
 
                 2 -> {
                     back(binding.passwdLayout, binding.idLayout)
+                    binding.buttonNext.text = "다음"
                     pageIndex--
                 }
             }
@@ -258,7 +262,17 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun registerUser(user: RegisterUserData) = lifecycleScope.launch {
-        RetrofitClient.instance.registerUser(user)
+        runCatching {
+            RetrofitClient.instance.registerUser(user)
+        }.onSuccess { token ->
+            Toast.makeText(this@SignUpActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+
+        }.onFailure {
+            Toast.makeText(this@SignUpActivity, "이미 가입된 아이디입니다.", Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 
 }
